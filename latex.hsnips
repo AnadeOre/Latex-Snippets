@@ -1,0 +1,558 @@
+global
+function gen_matrix(nrow, ncol, index) {
+    let results = "\n";
+    let order = 1;
+    for (var i=0; i<nrow; i++){
+        results += '    ';
+        for(var j = 0;j <ncol;j++){
+            results += "$" +(order ).toString() + ((j == ncol -1) ?  " \\\\\\" : " & ");
+            order ++;
+        }
+        results += index ? "\n" : "";
+    }
+    return results;
+}
+
+function gen_fig(label, nfig) {
+    let results = "\n";
+    results += "\\begin{figure}[htb!]\n";
+    results += "    \\centering\n";
+    let order = 2;
+    if (nfig == 1) {
+        results += "    \\includegraphics[width=.${1:4}\\textwidth]{./img${2}}\n";
+    } 
+    else {
+        for (var i=0; i<nfig; i++){
+            results += "    \\begin{subfigure}{.${1:3}\\textwidth}\n";
+            results += "        \\includegraphics[width=\\textwidth]{./img${" + (order).toString() + "}}\n";
+            results += "        \\caption{}\n";
+            results += "        \\label{fig:" + label + "_" + (i+1).toString() + "}\n";
+            results += "    \\end{subfigure}\n";
+            order ++;
+        }
+    }
+    results += "    \\caption{${" + (order).toString() + "}}\n";
+    results += "    \\label{fig:" + label + "}\n";
+    results += "\\end{figure}\n";
+    return results;
+}
+endglobal
+
+snippet bcap "bicaption" iA
+\bicaption{\quad }{\quad }
+endsnippet
+
+snippet tcg "textcolor" iA
+\textcolor{green}{${1:${VISUAL}}}$0
+endsnippet
+
+
+snippet latexpreamble "latex preamble" iA
+\documentclass[a4paper,12pt, reqno]{article}
+
+% Packages
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsfonts,amssymb,amsthm,amsmath,latexsym,euscript,mathrsfs,relsize,mathtools, verbatim}
+\usepackage{graphicx,float,multirow, hyperref}
+\usepackage{multicol,vwcol}
+\usepackage{enumitem}
+\usepackage{cancel,marginnote}
+\usepackage{stackengine}
+\usepackage{listings}
+\usepackage{xcolor, color}
+\usepackage[font=scriptsize,labelfont=bf]{caption}
+
+% Commands
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand\darrow{\rightarrow_\rightarrow}
+\newcommand{\gen}{\mathrm{span}}
+\newcommand{\frob}[1]{\| #1 \|_\mathrm{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\C}{C}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\X}{\mathbb{X}}
+\newcommand{\M}{\mathcal{M}}
+\renewcommand{\S}{\mathcal{S}}
+\renewcommand{\Re}{\text{Re\,}}
+\newcommand{\Int}[1]{\text{Int}(#1)}
+\renewcommand{\P}{\mathcal{P}}
+\def\restrict#1{\raise-.5ex\hbox{\ensuremath|}_{#1}}
+\renewcommand{\CancelColor}{\color{gray}}
+\newcommand{\lolim}[1]{\underset{#1}{\underline{\lim}}}
+\newcommand{\uplim}[1]{\underset{#1}{\overline{\lim}}}
+\newcommand{\lolimline}[1]{\underline{\lim}_{#1}}
+\newcommand{\uplimline}[1]{\overline{\lim}_{#1}}
+\newcommand{\lodim}[1]{\underline{\dim}_{#1}}
+\newcommand{\updim}[1]{\overline{\dim}_{#1}}
+\newcommand{\vol}{\text{vol}}
+\newcommand{\graph}{\text{graph}}
+\newcommand{\supp}{\text{supp}}
+
+\newcommand{\red}[1]{{\color{red}{#1}}}
+\newcommand{\blue}[1]{{\color{blue}{#1}}}
+\newcommand{\gray}[1]{{\color{gray}{#1}}}
+
+% Theorems
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{conj}{Conjecture}
+\newtheorem{coro}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{propo}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{exam}{Example}[section]
+\theoremstyle{remark}
+\newtheorem{obs}{Observation}[section]
+
+
+
+\title{$1}
+\author{\small Ana Emilia de Orellana}
+\date{}
+
+
+
+\begin{document}
+	\maketitle
+
+    $0
+
+\end{document}
+endsnippet
+
+# math environment 
+
+context math(context)
+snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` "[G] Greek letter" A
+`` trans = {"a": "\\alpha", "b": "\\beta", "g": "\\gamma", "G": "\\Gamma", "d": "\\delta", "D": "\\Delta", "e": "\\epsilon", "E": "\\varepsilon", "z": "\\zeta", "h": "\\eta", "t": "\\theta", "T": "\\Theta", "k": "\\kappa", "i": "\\iota", "l": "\\lambda", "L": "\\Lambda", "m": "\\mu", "n": "\\nu", "x": "\\xi", "X": "\\Xi", "p": "\\pi", "P": "\\Pi", "r": "\\rho", "s": "\\sigma", "S": "\\Sigma", "o": "\\omega", "O": "\\Omega", "c": "\\chi", "f": "\\phi", "F": "\\varphi", "I": "\\Phi", "y": "\\upsilon", "Y": "\\Upsilon", "v": "\\psi", "V": "\\Psi", "u": "\\tau" }
+rv = (trans[m[1]] || ("z" + m[1])) ``
+endsnippet
+
+snippet $ "inline math" iA
+$${VISUAL}$0
+endsnippet
+
+priority 10
+snippet \[ "bracket" iAm
+\\[ ${1:${VISUAL}} \\]$0
+endsnippet
+
+priority 10
+snippet \( "bracket" iAm
+\\( ${1:${VISUAL}} \\)$0
+endsnippet
+
+priority 10
+snippet \{ "bracket" iAm
+\\{ ${1:${VISUAL}} \\}$0
+endsnippet
+
+priority 10
+snippet @| "left| right|" iAm
+\left| ${1:${VISUAL}} \right|$0
+endsnippet
+
+priority 10
+snippet @{ "\left\{ \right\}" iAm
+\left\\{ ${1:${VISUAL}} \right\\}$0
+endsnippet
+
+priority 10000
+snippet ` bl ` "left\{ right." iAm
+\left\\{ ${1:${VISUAL}} \right.$0
+endsnippet
+
+priority 10
+snippet ` br ` "left. right\}" iAm
+\left. ${1:${VISUAL}} \right\\}$0
+endsnippet
+
+context math(context)
+snippet `lr([\|\)\]\>\}vV])` "[G] Left-right" A
+`` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\left${trans[m[1]][0]} $1 \\right${trans[m[1]][1]}$0` ``
+endsnippet
+
+context math(context)
+snippet `b([\|\)\]\>\}vV])` "[G] big-big" A
+`` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\big${trans[m[1]][0]} $0 \\big${trans[m[1]][1]}` ``
+endsnippet
+
+# RR -> \mathbb{R}
+snippet `RR|CC|ZZ` "sets" iA
+\\mathbb{``rv=m[0].charAt(0)``}
+endsnippet
+
+# bmat m n -> a matrix with the size of m*n
+snippet `(bm|pm|m|vm)at ([0-9]+) ([0-9]+) ` "matrix" bA
+\begin{``rv = m[1]``atrix}``
+    rv = gen_matrix(m[2],m[3],1);
+``\end{``rv = m[1]``atrix}$0
+endsnippet
+
+# fig label n -> figure enverniment with n subfigures, and the labels are specified by label
+snippet `fig (\S+) ([0-9]+) ` "figure" bA
+``rv = gen_fig(m[1], m[2])``$0
+endsnippet
+
+# spl -> the split enverniment with the selected text
+snippet spl "split" Am
+\begin{split}
+    ${VISUAL}$0
+\end{split}
+endsnippet
+
+
+context math(context)
+snippet ff "[G] Fraction" wA
+\\frac{$1}{$2}
+endsnippet
+
+# sum -> sum
+snippet Ssm "Sum" Am
+\sum_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+snippet ssm "sum" Am
+\sum_{${1:i}=${2:1}}
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)lim` "[G] Inline Limit" wA
+\\lim_{${1:x} \\to ${2:\infty}} 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)Lim` "[G] Limit" wA
+\\lim\\limits_{${1:x} \\to ${2:\infty}} 
+endsnippet
+
+# {x}/ -> \frac{x}{}
+snippet `\{.+\}/` "fraction" Am
+``
+let str = m[0];
+str = str.slice(0, -1);
+let lastIndex = str.length - 1;
+
+let depth = 0;
+let i = str.length - 1;
+
+while (true) {
+    if (str[i] == '}') depth += 1;
+    if (str[i] == '{') depth -= 1;
+    if (depth == 0) break;
+    i -= 1;
+}
+
+let results = str.slice(0, i) + "\\frac{" + str.slice(i+1, -1) + "}";
+results += "{$1}$0";
+rv = results;
+``
+endsnippet
+
+# => -> \Rightarrow
+snippet `->` "implies" Am
+\Rightarrow
+endsnippet
+
+# =< -> \Leftarrow
+snippet `<-` "implied by" Am
+\Leftarrow
+endsnippet
+
+# <= -> \leq
+snippet `<=` "leq" Am
+\leq
+endsnippet
+
+# >= -> \geq
+snippet `>=` "geq" Am
+\geq
+endsnippet
+
+# != -> \neq
+snippet `!=` "neq" Am
+\neq
+endsnippet
+
+snippet `~=` "approx: Am
+\approx
+endsnippet
+
+# ... -> \cdots
+snippet ... "dots" Am
+\dots
+endsnippet
+
+snippet *** "cdots" Am
+\cdots
+endsnippet
+
+snippet ;;; "vdots" Am
+\vdots
+endsnippet
+
+snippet ::: "ddots" Am
+\ddots
+endsnippet
+
+context math(context)
+snippet mto "[G] Mapsto" A
+\\mapsto 
+endsnippet
+
+context math(context)
+snippet ee "[G] Exists" wA
+\\exists 
+endsnippet
+
+context math(context)
+snippet fa "[G] For all" wA
+\\forall 
+endsnippet
+
+context math(context)
+snippet xx "[G] Cross" A
+\\times 
+endsnippet
+
+context math(context)
+snippet cd "[G] cdot" iA
+\\cdot 
+endsnippet
+
+context math(context)
+snippet qq "[G] Quad" wA
+\\quad 
+endsnippet
+
+
+# lab abc  -> \label{abc}
+snippet `lab (\S+) ` "label" Am
+\label{``rv = m[1]``} 
+endsnippet
+
+# 10^x+y -> 10^{x+y}
+# snippet `\^([^\{]\S*) ` "superscript" Am
+# ^{``rv = m[1]``}
+# endsnippet
+#
+#snippet ^ "superscript" iAm
+#^{${1}}$0
+#endsnippet
+
+snippet _ "subscript" iAm
+_{${1}}$0
+endsnippet
+
+# 10_x+y -> 10_{x+y}
+snippet `_([^\{]\S*) ` "subscript" Am
+_{``rv = m[1]``}
+endsnippet
+
+# \mathbf{A}^T -> \mathbf{A}^{\mathbrm T}
+snippet `\^\{T` "transpose" iAm
+^{\mathrm{T}
+endsnippet
+
+# \mathbf{A}^H -> \mathbf{A}^{\mathbrm H}
+snippet `\^\{H` "hermitian" iAm
+^{\mathrm{H}
+endsnippet
+
+# cal -> \mathcal{}
+snippet cal "mathcal" iAm
+\mathcal{${1:${VISUAL}}}$0
+endsnippet
+
+# bb -> \mathbb{}
+snippet bb "mathbb" iAm
+\mathbb{${1:${VISUAL}}}$0
+endsnippet
+
+# bf -> \mathbf{}
+snippet bf "mathbf" iAm
+\mathbf{${1:${VISUAL}}}$0
+endsnippet
+
+# txt -> \text{}
+snippet txt "text" iA
+\text{${1:${VISUAL}}}$0
+endsnippet
+
+# tit -> \textit{}
+snippet tit "text it" iA
+\textit{${1:${VISUAL}}}$0
+endsnippet
+
+# tbf -> \textbf{}
+snippet tbf "text bf" iA
+\textbf{${1:${VISUAL}}}$0
+endsnippet
+
+# sin -> \sin
+snippet `(?<!arc)(?<!\\)(sin|cos|tan|csc|ln|log|lg|det|ker|max|min)` "function" iAm
+\``rv=m[1]+' '``
+endsnippet
+
+snippet `(?<=\\(sin|cos|tan|csc|cot))( )h` "function" iAm
+``rv='h '``
+endsnippet
+
+# in -> \in
+snippet ` (in|notin|subset|subseteq|supset|supseteq) ` "sets operator" wAm
+ \``rv = m[1]`` 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)iin` "[G] Infinity" wA
+\\infty
+endsnippet
+
+context math(context)
+snippet Bcu "[G] Big Cup" wA
+\\bigcup_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet bcu "[G] Inline Big Cup" wA
+\\cup_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet Bca "[G] Big Cap" wA
+\\bigcap_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet bca "[G] Big Cap" wA
+\\cap_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet 0n "[G] Null set" wA
+\\varnothing
+endsnippet
+
+context math(context)
+snippet dint "[G] Integral" wA
+\\int_{${1:-\\infty}}^{${2:\\infty}} 
+endsnippet
+
+
+
+# ==== Auto Capture Hat Operation ====
+
+# Ahbar -> \overline{A}
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(barr|BARR)` "Bar" iAm
+\overline{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(tildee|TILDEE)` "tilde" iAm
+\widetilde{``rv = m[1]``}
+endsnippets
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hatt|HATT)` "hat" iAm
+\widehat{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(checkk|CHECKK)` "check" iAm
+\widecheck{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hvec)` "Vector postfix" iAm
+\vec{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(rta)` "Vector postfix" iAm
+\overrightarrow{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hdot)` "dot" iAm
+\dot{``rv = m[1]``}
+endsnippet
+
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hddot)` "ddot" iAm
+\ddot{``rv = m[1]``}
+endsnippet
+
+snippet `^( *)lm` "inline Math" bA
+``rv = m[1]``\[
+``rv = m[1]``    ${VISUAL}$0
+``rv = m[1]``\]
+endsnippet
+
+snippet eqq "equation" bA
+\begin{equation*}
+    ${VISUAL}$0
+\end{equation*}
+endsnippet
+
+snippet `ali` "equation" bA
+\begin{align*}
+    ${VISUAL}$0
+\end{align*}
+endsnippet
+
+snippet `beg` "begin/end" bA
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+snippet `^( *)minipage` "minipage" bA
+``rv = m[1]``\begin{minipage}{.${1:45}\textwidth}
+``rv = m[1]``	${VISUAL}$0
+``rv = m[1]``\end{minipage}
+endsnippet
+
+priority 100
+snippet `(\\?[a-zA-Z0-9]\w*({?\w*})?)(bf|BF)` "mathbf" iAm
+\mathbf{``rv = m[1]``}
+endsnippet
+
+priority 100
+snippet `(\\?[a-zA-Z0-9]\w*({?\w*})?)(bm|BM)` "mathbm" iAm
+\bm{``rv = m[1]``}
+endsnippet
+
+priority 100
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)bb` iAm
+\mathbb{``rv = m[1]``}$0
+endsnippet
+
+priority 100
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)cal` "mathcal" iAm
+\mathcal{``rv = m[1].toUpperCase()``}$0
+endsnippet
+
+priority 100
+snippet `(?<!\\)\b([a-zA-Z]+)rm` "mathrm" iAm
+\mathrm{``rv = m[1]``}
+endsnippet
+
+# latex enverniment 
+
+#priority 100
+#snippet `ref (\S+) ` "reference" A
+\cref{``rv = m[1]``}
+endsnippet
+
+priority 100
+snippet `cite (\S+) ` "cite" A
+\cite{``rv = m[1]``}
+endsnippet
+
+priority 100
+snippet `(chapter|section|subsection|subsubsection) (\S+) ` "paragraph" bA
+\\``rv = m[1]``{``rv = m[2]``}
+$0
+endsnippet
