@@ -24,4 +24,4 @@ Paste the file `latex.hsnips`found in this repository.
 
 This is a sample gif of creating a document and an equation using the snippets.
 
-![test](Images/GifExample.gif)
+![test](Images/Ejemplo.gif)
