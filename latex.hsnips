@@ -131,12 +131,8 @@ endsnippet
 
 context math(context)
 snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` "[G] Greek letter" A
-`` trans = {"a": "\\alpha", "b": "\\beta", "g": "\\gamma", "G": "\\Gamma", "d": "\\delta", "D": "\\Delta", "e": "\\epsilon", "E": "\\varepsilon", "z": "\\zeta", "h": "\\eta", "t": "\\theta", "T": "\\Theta", "k": "\\kappa", "i": "\\iota", "l": "\\lambda", "L": "\\Lambda", "m": "\\mu", "n": "\\nu", "x": "\\xi", "X": "\\Xi", "p": "\\pi", "P": "\\Pi", "r": "\\rho", "s": "\\sigma", "S": "\\Sigma", "o": "\\omega", "O": "\\Omega", "c": "\\chi", "f": "\\phi", "F": "\\varphi", "I": "\\Phi", "y": "\\upsilon", "Y": "\\Upsilon", "v": "\\psi", "V": "\\Psi", "u": "\\tau" }
+`` trans = {"a": "\\alpha", "b": "\\beta", "g": "\\gamma", "G": "\\Gamma", "d": "\\delta", "D": "\\Delta", "e": "\\varepsilon", "z": "\\zeta", "h": "\\eta", "t": "\\theta", "T": "\\Theta", "k": "\\kappa", "i": "\\iota", "l": "\\lambda", "L": "\\Lambda", "m": "\\mu", "n": "\\nu", "x": "\\xi", "X": "\\Xi", "p": "\\pi", "P": "\\Pi", "r": "\\rho", "s": "\\sigma", "S": "\\Sigma", "o": "\\omega", "O": "\\Omega", "c": "\\chi", "f": "\\varphi", "F": "\\varPhi", "I": "\\Phi", "y": "\\upsilon", "Y": "\\Upsilon", "v": "\\psi", "V": "\\Psi", "u": "\\tau" }
 rv = (trans[m[1]] || ("z" + m[1])) ``
-endsnippet
-
-snippet $ "inline math" iA
-$${VISUAL}$0
 endsnippet
 
 priority 10
@@ -226,37 +222,10 @@ snippet ssm "sum" Am
 endsnippet
 
 context math(context)
-snippet `\b(?<!\\)lim` "[G] Inline Limit" wA
+snippet `\b(?<!\\)Lim` "[G] Limit" wA
 \\lim_{${1:x} \\to ${2:\infty}} 
 endsnippet
 
-context math(context)
-snippet `\b(?<!\\)Lim` "[G] Limit" wA
-\\lim\\limits_{${1:x} \\to ${2:\infty}} 
-endsnippet
-
-# {x}/ -> \frac{x}{}
-snippet `\{.+\}/` "fraction" Am
-``
-let str = m[0];
-str = str.slice(0, -1);
-let lastIndex = str.length - 1;
-
-let depth = 0;
-let i = str.length - 1;
-
-while (true) {
-    if (str[i] == '}') depth += 1;
-    if (str[i] == '{') depth -= 1;
-    if (depth == 0) break;
-    i -= 1;
-}
-
-let results = str.slice(0, i) + "\\frac{" + str.slice(i+1, -1) + "}";
-results += "{$1}$0";
-rv = results;
-``
-endsnippet
 
 # => -> \Rightarrow
 snippet `->` "implies" Am
@@ -315,11 +284,6 @@ snippet ee "[G] Exists" wA
 endsnippet
 
 context math(context)
-snippet fa "[G] For all" wA
-\\forall 
-endsnippet
-
-context math(context)
 snippet xx "[G] Cross" A
 \\times 
 endsnippet
@@ -368,10 +332,6 @@ snippet `\^\{H` "hermitian" iAm
 ^{\mathrm{H}
 endsnippet
 
-# cal -> \mathcal{}
-snippet cal "mathcal" iAm
-\mathcal{${1:${VISUAL}}}$0
-endsnippet
 
 # bb -> \mathbb{}
 snippet bb "mathbb" iAm
@@ -399,16 +359,16 @@ snippet tbf "text bf" iA
 endsnippet
 
 # sin -> \sin
-snippet `(?<!arc)(?<!\\)(sin|cos|tan|csc|ln|log|lg|det|ker|max|min)` "function" iAm
+snippet `(?<!arc)(?<!\\)(csc|ln|log|lg|det)` "function" iAm
 \``rv=m[1]+' '``
 endsnippet
 
-snippet `(?<=\\(sin|cos|tan|csc|cot))( )h` "function" iAm
+snippet `(?<=\\(cos|csc|cot))( )h` "function" iAm
 ``rv='h '``
 endsnippet
 
 # in -> \in
-snippet ` (in|notin|subset|subseteq|supset|supseteq) ` "sets operator" wAm
+snippet ` (notin|subseteq|supset|supseteq) ` "sets operator" wAm
  \``rv = m[1]`` 
 endsnippet
 
@@ -456,6 +416,10 @@ snippet `(\\?[a-zA-Z]\w*({?\w*})?)(barr|BARR)` "Bar" iAm
 \overline{``rv = m[1]``}
 endsnippet
 
+snippet `(\\?[a-zA-Z]\w*({?\w*})?)(undd|UNDD)` "Bar" iAm
+\underline{``rv = m[1]``}
+endsnippet
+
 snippet `(\\?[a-zA-Z]\w*({?\w*})?)(tildee|TILDEE)` "tilde" iAm
 \widetilde{``rv = m[1]``}
 endsnippets
@@ -470,10 +434,6 @@ endsnippet
 
 snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hvec)` "Vector postfix" iAm
 \vec{``rv = m[1]``}
-endsnippet
-
-snippet `(\\?[a-zA-Z]\w*({?\w*})?)(rta)` "Vector postfix" iAm
-\overrightarrow{``rv = m[1]``}
 endsnippet
 
 snippet `(\\?[a-zA-Z]\w*({?\w*})?)(hdot)` "dot" iAm
@@ -496,7 +456,7 @@ snippet eqq "equation" bA
 \end{equation*}
 endsnippet
 
-snippet `ali` "equation" bA
+snippet `alii` "equation" bA
 \begin{align*}
     ${VISUAL}$0
 \end{align*}
@@ -529,16 +489,6 @@ snippet `(\\?[a-zA-Z]\w*({?\w*})?)bb` iAm
 \mathbb{``rv = m[1]``}$0
 endsnippet
 
-priority 100
-snippet `(\\?[a-zA-Z]\w*({?\w*})?)cal` "mathcal" iAm
-\mathcal{``rv = m[1].toUpperCase()``}$0
-endsnippet
-
-priority 100
-snippet `(?<!\\)\b([a-zA-Z]+)rm` "mathrm" iAm
-\mathrm{``rv = m[1]``}
-endsnippet
-
 # latex enverniment 
 
 #priority 100
@@ -549,10 +499,4 @@ endsnippet
 priority 100
 snippet `cite (\S+) ` "cite" A
 \cite{``rv = m[1]``}
-endsnippet
-
-priority 100
-snippet `(chapter|section|subsection|subsubsection) (\S+) ` "paragraph" bA
-\\``rv = m[1]``{``rv = m[2]``}
-$0
 endsnippet
