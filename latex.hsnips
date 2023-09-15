@@ -182,6 +182,12 @@ snippet `b([\|\)\]\>\}vV])` "[G] big-big" A
 rv = `\\big${trans[m[1]][0]} $0 \\big${trans[m[1]][1]}` ``
 endsnippet
 
+context math(context)
+snippet `B([\|\)\]\>\}vV])` "[G] Big-Big" A
+`` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\Big${trans[m[1]][0]} $0 \\Big${trans[m[1]][1]}` ``
+endsnippet
+
 # RR -> \mathbb{R}
 snippet `RR|CC|ZZ` "sets" iA
 \\mathbb{``rv=m[0].charAt(0)``}
@@ -359,7 +365,7 @@ snippet tbf "text bf" iA
 endsnippet
 
 # sin -> \sin
-snippet `(?<!arc)(?<!\\)(csc|ln|log|lg|det)` "function" iAm
+snippet `(?<!arc)(?<!\\)(csc|ln|lg)` "function" iAm
 \``rv=m[1]+' '``
 endsnippet
 
