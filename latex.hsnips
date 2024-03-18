@@ -183,6 +183,12 @@ rv = `\\big${trans[m[1]][0]} $0 \\big${trans[m[1]][1]}` ``
 endsnippet
 
 context math(context)
+snippet `bg([\|\)\]\>\}vV])` "[G] bigg-bigg" A
+`` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\bigg${trans[m[1]][0]} $0 \\bigg${trans[m[1]][1]}` ``
+endsnippet
+
+context math(context)
 snippet `B([\|\)\]\>\}vV])` "[G] Big-Big" A
 `` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
 rv = `\\Big${trans[m[1]][0]} $0 \\Big${trans[m[1]][1]}` ``
