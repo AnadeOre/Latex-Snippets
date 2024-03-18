@@ -6,10 +6,13 @@ Latex snippets for vscode
 ## Extensions necessary
 
 Ayu is not necessary but its the theme I like.
+- HyperScopes
+- HyperSnips for Math (this one works together with HyperScopes to have snippets)
+- LanguageTool for Visual Studio Code (to check spelling)
+- LaTeX Workshop (this essential to be able to use LaTeX in vscode)
+- LTeX (checks spelling and supports LaTeX)
 
-![Extensions1](Images/Extensions1.png)
-
-![Extensions2](Images/Extensions2.png)
+![Extensions1](Images/Extensions.png)
 
 ## How to install snippets
 
