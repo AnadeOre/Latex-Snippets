@@ -47,90 +47,10 @@ snippet tcg "textcolor" iA
 endsnippet
 
 
-snippet latexpreamble "latex preamble" iA
-\documentclass[a4paper,12pt, reqno]{article}
-
-% Packages
-\usepackage[english]{babel}
-\usepackage{graphicx}
-\usepackage{amsfonts,amssymb,amsthm,amsmath,latexsym,euscript,mathrsfs,relsize,mathtools, verbatim}
-\usepackage{graphicx,float,multirow, hyperref}
-\usepackage{multicol,vwcol}
-\usepackage{enumitem}
-\usepackage{cancel,marginnote}
-\usepackage{stackengine}
-\usepackage{listings}
-\usepackage{xcolor, color}
-\usepackage[font=scriptsize,labelfont=bf]{caption}
-
-% Commands
-\DeclareMathOperator*{\argmax}{argmax}
-\DeclareMathOperator*{\argmin}{argmin}
-\newcommand\darrow{\rightarrow_\rightarrow}
-\newcommand{\gen}{\mathrm{span}}
-\newcommand{\frob}[1]{\| #1 \|_\mathrm{F}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\Z}{\mathbb{Z}}
-\renewcommand{\H}{\mathcal{H}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\I}{\mathbb{I}}
-\newcommand{\C}{C}
-\newcommand{\N}{\mathbb{N}}
-\renewcommand{\L}{\mathcal{L}}
-\newcommand{\X}{\mathbb{X}}
-\newcommand{\M}{\mathcal{M}}
-\renewcommand{\S}{\mathcal{S}}
-\renewcommand{\Re}{\text{Re\,}}
-\newcommand{\Int}[1]{\text{Int}(#1)}
-\renewcommand{\P}{\mathcal{P}}
-\def\restrict#1{\raise-.5ex\hbox{\ensuremath|}_{#1}}
-\renewcommand{\CancelColor}{\color{gray}}
-\newcommand{\lolim}[1]{\underset{#1}{\underline{\lim}}}
-\newcommand{\uplim}[1]{\underset{#1}{\overline{\lim}}}
-\newcommand{\lolimline}[1]{\underline{\lim}_{#1}}
-\newcommand{\uplimline}[1]{\overline{\lim}_{#1}}
-\newcommand{\lodim}[1]{\underline{\dim}_{#1}}
-\newcommand{\updim}[1]{\overline{\dim}_{#1}}
-\newcommand{\vol}{\text{vol}}
-\newcommand{\graph}{\text{graph}}
-\newcommand{\supp}{\text{supp}}
-
-\newcommand{\red}[1]{{\color{red}{#1}}}
-\newcommand{\blue}[1]{{\color{blue}{#1}}}
-\newcommand{\gray}[1]{{\color{gray}{#1}}}
-
-% Theorems
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{conj}{Conjecture}
-\newtheorem{coro}{Corollary}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{propo}{Proposition}[section]
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{exam}{Example}[section]
-\theoremstyle{remark}
-\newtheorem{obs}{Observation}[section]
-
-
-
-\title{$1}
-\author{\small Ana Emilia de Orellana}
-\date{}
-
-
-
-\begin{document}
-	\maketitle
-
-    $0
-
-\end{document}
-endsnippet
-
 # math environment 
 
 context math(context)
-snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` "[G] Greek letter" A
+snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` "[G] Greek letter" iAm
 `` trans = {"a": "\\alpha", "b": "\\beta", "g": "\\gamma", "G": "\\Gamma", "d": "\\delta", "D": "\\Delta", "e": "\\varepsilon", "z": "\\zeta", "h": "\\eta", "t": "\\theta", "T": "\\Theta", "k": "\\kappa", "i": "\\iota", "l": "\\lambda", "L": "\\Lambda", "m": "\\mu", "n": "\\nu", "x": "\\xi", "X": "\\Xi", "p": "\\pi", "P": "\\Pi", "r": "\\rho", "s": "\\sigma", "S": "\\Sigma", "o": "\\omega", "O": "\\Omega", "c": "\\chi", "f": "\\varphi", "F": "\\varPhi", "I": "\\Phi", "y": "\\upsilon", "Y": "\\Upsilon", "v": "\\psi", "V": "\\Psi", "u": "\\tau" }
 rv = (trans[m[1]] || ("z" + m[1])) ``
 endsnippet
@@ -189,6 +109,12 @@ rv = `\\bigg${trans[m[1]][0]} $0 \\bigg${trans[m[1]][1]}` ``
 endsnippet
 
 context math(context)
+snippet `Bg([\|\)\]\>\}vV])` "[G] Bigg-Bigg" A
+`` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\Bigg${trans[m[1]][0]} $0 \\Bigg${trans[m[1]][1]}` ``
+endsnippet
+
+context math(context)
 snippet `B([\|\)\]\>\}vV])` "[G] Big-Big" A
 `` trans = {"|": ["|", "|"], ")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
 rv = `\\Big${trans[m[1]][0]} $0 \\Big${trans[m[1]][1]}` ``
@@ -206,22 +132,16 @@ snippet `(bm|pm|m|vm)at ([0-9]+) ([0-9]+) ` "matrix" bA
 ``\end{``rv = m[1]``atrix}$0
 endsnippet
 
-# fig label n -> figure enverniment with n subfigures, and the labels are specified by label
-snippet `fig (\S+) ([0-9]+) ` "figure" bA
-``rv = gen_fig(m[1], m[2])``$0
-endsnippet
-
-# spl -> the split enverniment with the selected text
-snippet spl "split" Am
-\begin{split}
-    ${VISUAL}$0
-\end{split}
-endsnippet
 
 
 context math(context)
 snippet ff "[G] Fraction" wA
 \\frac{$1}{$2}
+endsnippet
+
+context math(context)
+snippet tff "[G] Fraction" wA
+\\tfrac{$1}{$2}
 endsnippet
 
 # sum -> sum
@@ -268,22 +188,6 @@ snippet `~=` "approx: Am
 \approx
 endsnippet
 
-# ... -> \cdots
-snippet ... "dots" Am
-\dots
-endsnippet
-
-snippet *** "cdots" Am
-\cdots
-endsnippet
-
-snippet ;;; "vdots" Am
-\vdots
-endsnippet
-
-snippet ::: "ddots" Am
-\ddots
-endsnippet
 
 context math(context)
 snippet mto "[G] Mapsto" A
@@ -301,8 +205,8 @@ snippet xx "[G] Cross" A
 endsnippet
 
 context math(context)
-snippet cd "[G] cdot" iA
-\\cdot 
+snippet cd "[G] cdots" iA
+\\cdots
 endsnippet
 
 context math(context)
